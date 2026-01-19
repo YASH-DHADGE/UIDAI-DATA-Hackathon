@@ -321,7 +321,6 @@ The dashboard (`07_dashboard.png`) provides a comprehensive view of:
 | Exploratory Analysis | ✅ Complete |
 | Visualization Generation | ✅ Complete |
 | Insights Compilation | ✅ Complete |
-| **Submission Deadline** | **January 20, 2026, 11:59 PM** |
 
 ---
 
