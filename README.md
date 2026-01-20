@@ -305,26 +305,18 @@ python uidai_data_analysis.py
 
 | Milestone | Status |
 |-----------|--------|
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 | Data Collection | ✅ Complete |
 | Data Preprocessing | ✅ Complete |
 | Exploratory Analysis | ✅ Complete |
 | Visualization Generation | ✅ Complete |
 | Insights Compilation | ✅ Complete |
-=======
-=======
->>>>>>> Stashed changes
 | Data Collection | Complete |
 | Data Synchronization | Complete |
 | Anomaly Detection | Complete |
 | Visualization Generation | Complete |
 | Insights Compilation | Complete |
 | Key Insights Analysis | Complete |
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
 
 ---
 
