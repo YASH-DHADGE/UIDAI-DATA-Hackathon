@@ -1,11 +1,11 @@
 # 🔐 UIDAI Data Hackathon 2026 - Aadhaar Analytics Platform
 
 <p align="center">
+  <img src="https://img.shields.io/badge/Team-CoreTech%20Labs-red.svg" alt="Team">
   <img src="https://img.shields.io/badge/Python-3.9+-blue.svg" alt="Python">
   <img src="https://img.shields.io/badge/Pandas-2.0+-green.svg" alt="Pandas">
   <img src="https://img.shields.io/badge/Hackathon-UIDAI%202026-orange.svg" alt="Hackathon">
   <img src="https://img.shields.io/badge/Records-4.9M+-purple.svg" alt="Records">
-  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
 </p>
 
 > **Comprehensive analytics solution for analyzing anonymized Aadhaar enrolment and update datasets to uncover meaningful patterns, trends, and anomalies that support UIDAI decision-making.**
@@ -20,10 +20,9 @@
 - [Project Structure](#-project-structure)
 - [Installation](#-installation)
 - [Usage](#-usage)
-- [Analysis Modules](#-analysis-modules)
+- [Analysis Pipeline](#-analysis-pipeline)
 - [Visualizations](#-visualizations)
 - [Technical Stack](#-technical-stack)
-- [Contributing](#-contributing)
 
 ---
 
@@ -31,11 +30,17 @@
 
 This project provides a multi-layered analytical framework for UIDAI's Aadhaar data, processing **4.9+ million records** across three major datasets to deliver actionable insights for service optimization.
 
+### Key Features
+- 🧹 **Data Synchronization**: Cleans and aligns datasets by common dates & pincodes
+- 🔍 **Anomaly Detection**: Identifies misuse patterns, data imbalances, and mass registration events
+- 📊 **Comprehensive Visualizations**: 10+ charts including executive dashboards
+- 📈 **Statistical Analysis**: Correlation, z-score anomalies, trend analysis
+
 ### Research Questions Addressed
 - 📍 Which states/districts have disproportionately high or low Aadhaar activity?
 - 📅 Are there seasonal, weekly, or daily patterns for resource allocation?
 - 🔄 What drives citizens to update biometric vs. demographic information?
-- ⚡ How can UIDAI improve operational efficiency based on data-driven insights?
+- ⚠️ Are there anomalous patterns indicating potential misuse or data issues?
 
 ---
 
@@ -48,92 +53,65 @@ This project provides a multi-layered analytical framework for UIDAI's Aadhaar d
 | **Weekend Effect** | +32.8% | Citizens prefer weekend services |
 | **Bio-Demo Correlation** | r = 0.939 | Very strong relationship between update types |
 | **States Covered** | 36 | Full national coverage |
-| **Unique Pincodes** | 19,000+ | Granular geographic reach |
+| **Synchronized Pincodes** | 19,410+ | Common across all 3 datasets |
+
+### 🚨 Anomaly Detection Results
+
+| Pattern | Description | Findings |
+|---------|-------------|----------|
+| **Misuse Detection** | High enrolment + low biometric rate | 2,410 suspicious pincodes |
+| **Data Imbalance** | High adult demo + low child enrolment | 13 imbalanced pincodes |
+| **Mass Registration** | Simultaneous spikes across datasets | 2 mass registration dates |
 
 ### 💡 Actionable Recommendations
 1. **Geographic Focus**: Prioritize UP, Tamil Nadu, MP, Bihar, Maharashtra
 2. **Temporal Optimization**: Expand weekend operations (+32.8% demand)
 3. **Bundled Services**: Strong bio-demo correlation supports combined updates
 4. **Age-Specific Outreach**: School-based campaigns for child biometric updates
-5. **Proactive Monitoring**: Implement anomaly detection for data quality
+5. **Fraud Prevention**: Investigate 2,410 suspicious high-enrolment/low-biometric pincodes
+6. **Biometric Coverage**: Target 30 lowest-coverage districts for update drives
+7. **Delay Reduction**: Address 130 regions with 7+ day biometric completion lag
 
 ---
 
 ## 📊 Datasets
 
-| Dataset | Records | Size | Description |
-|---------|---------|------|-------------|
-| **Biometric Updates** | ~1.86M | ~150 MB | Biometric update records with age distribution |
-| **Demographic Updates** | ~2.07M | ~170 MB | Demographic update records with age distribution |
-| **Enrolments** | ~1.0M | ~85 MB | New Aadhaar enrolment records |
-| **TOTAL** | **~4.94M** | **~405 MB** | March 2025 onwards |
+| Dataset | Original Records | Cleaned Records | Description |
+|---------|-----------------|-----------------|-------------|
+| **Biometric Updates** | 1,861,108 | 1,430,718 | Biometric update records with age distribution |
+| **Demographic Updates** | 2,071,700 | 1,490,685 | Demographic update records with age distribution |
+| **Enrolments** | 1,006,029 | 880,336 | New Aadhaar enrolment records |
+| **TOTAL** | **4,938,837** | **3,801,739** | March-May 2025 |
 
-### Dataset Schema
-
-<details>
-<summary>📁 Biometric Update Dataset</summary>
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `date` | Date | Date of update (DD-MM-YYYY) |
-| `state` | String | Indian state/UT name |
-| `district` | String | District within state |
-| `pincode` | Integer | 6-digit postal code |
-| `bio_age_5_17` | Integer | Biometric updates for age 5-17 |
-| `bio_age_17_` | Integer | Biometric updates for age 17+ |
-</details>
-
-<details>
-<summary>📁 Demographic Update Dataset</summary>
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `date` | Date | Date of update |
-| `state` | String | State name |
-| `district` | String | District name |
-| `pincode` | Integer | Postal code |
-| `demo_age_5_17` | Integer | Demographic updates for age 5-17 |
-| `demo_age_17_` | Integer | Demographic updates for age 17+ |
-</details>
-
-<details>
-<summary>📁 Enrolment Dataset</summary>
-
-| Column | Type | Description |
-|--------|------|-------------|
-| `date` | Date | Enrolment date |
-| `state` | String | State name |
-| `district` | String | District name |
-| `pincode` | Integer | Postal code |
-| `age_0_5` | Integer | Enrolments for age 0-5 |
-| `age_5_17` | Integer | Enrolments for age 5-17 |
-| `age_18_greater` | Integer | Enrolments for age 18+ |
-</details>
+### Data Synchronization
+Datasets are synchronized to retain only:
+- **70 common dates** across all three datasets
+- **19,410+ common pincodes** across all three datasets
 
 ---
 
 ## 📁 Project Structure
 
 ```
-uidai-hackathon-2026/
+UIDAI-DATA-Hackathon/
 │
-├── 📂 api_data_aadhar_biometric/     # Biometric update raw data
-├── 📂 api_data_aadhar_demographic/   # Demographic update raw data
-├── 📂 api_data_aadhar_enrolment/     # Enrolment raw data
+├── 📂 api_data_aadhar_biometric/     # Raw biometric update data (chunked)
+├── 📂 api_data_aadhar_demographic/   # Raw demographic update data (chunked)
+├── 📂 api_data_aadhar_enrolment/     # Raw enrolment data (chunked)
+│
+├── 📂 cleaned_data/                   # ✨ Synchronized & Cleaned Datasets
+│   ├── enrolment_cleaned.csv         # Cleaned enrolment (880K rows)
+│   ├── demographic_cleaned.csv       # Cleaned demographic (1.49M rows)
+│   ├── biometric_cleaned.csv         # Cleaned biometric (1.43M rows)
+│   ├── cleaning_summary.csv          # Cleaning statistics
+│   ├── suspicious_pincodes_misuse.csv    # Pattern 1 results
+│   ├── imbalanced_pincodes.csv           # Pattern 2 results
+│   ├── mass_registration_events.csv      # Pattern 3 results
+│   └── pattern*.png                      # Anomaly visualizations
 │
 ├── 📂 notebooks/
-│   ├── uidai_analysis.ipynb          # Complete Jupyter notebook
-│   └── uidai_analysis.py             # Python source code
-│
-├── 📂 src/                            # Modular analysis components
-│   ├── analysis_part1_loading.py     # Data loading utilities
-│   ├── analysis_part2_preprocessing.py  # Data cleaning & preprocessing
-│   ├── analysis_part3_visualizations.py  # Basic visualizations
-│   ├── analysis_part4_bivariate.py   # Bivariate analysis
-│   ├── analysis_part5_trivariate.py  # Trivariate analysis
-│   ├── analysis_part6_advanced.py    # Advanced analytics
-│   ├── analysis_part7_insights.py    # Insights & recommendations
-│   └── complete_analysis.py          # Main runner script
+│   ├── uidai_analysis.ipynb          # Jupyter notebook (original)
+│   └── uidai_analysis.py             # Python script (uses cleaned data)
 │
 ├── 📂 visualizations/                 # Generated charts & insights
 │   ├── 01_time_series.png            # Daily activity trends
@@ -148,6 +126,20 @@ uidai-hackathon-2026/
 ├── 📂 submission/
 │   └── UIDAI_Hackathon_Submission_Report.md  # Final submission report
 │
+├── 📂 outputs/                        # ✨ Key Insights Analysis Outputs
+│   ├── top_1_percent_enrolment_regions.csv
+│   ├── lowest_biometric_coverage_regions.csv
+│   ├── national_high_variance_dates.csv
+│   ├── high_variance_regions.csv
+│   ├── low_child_penetration_regions.csv
+│   ├── high_adult_only_demographic_regions.csv
+│   ├── delayed_biometric_completion_regions.csv
+│   ├── step2-7*.png                   # 9 visualization plots
+│   └── summary.md                     # Analysis summary report
+│
+├── data_cleaning_sync.py             # 🧹 Data synchronization script
+├── anomaly_detection.py              # 🔍 Anomaly detection script
+├── uidai_data_analysis.py            # 📊 Key insights analysis script
 ├── requirements.txt                   # Python dependencies
 └── README.md                          # This file
 ```
@@ -159,122 +151,131 @@ uidai-hackathon-2026/
 ### Prerequisites
 - Python 3.9 or higher
 - pip (Python package manager)
-- Jupyter Notebook (optional, for interactive analysis)
 
-### Step-by-Step Setup
+### Quick Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/uidai-hackathon-2026.git
-   cd uidai-hackathon-2026
-   ```
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/UIDAI-DATA-Hackathon.git
+cd UIDAI-DATA-Hackathon
 
-2. **Create virtual environment (recommended)**
-   ```bash
-   python -m venv venv
-   
-   # Windows
-   .\venv\Scripts\activate
-   
-   # macOS/Linux
-   source venv/bin/activate
-   ```
+# Create virtual environment (recommended)
+python -m venv venv
+.\venv\Scripts\activate  # Windows
 
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Verify installation**
-   ```bash
-   python -c "import pandas; import matplotlib; print('✅ All dependencies installed!')"
-   ```
+# Install dependencies
+pip install -r requirements.txt
+```
 
 ---
 
 ## 💻 Usage
 
-### Option 1: Run Complete Analysis Script
-Run all analysis modules in sequence:
+### Step 1: Data Cleaning & Synchronization
+Synchronize datasets to retain only common dates and pincodes:
 
 ```bash
-cd "d:\Aadhar data hackathon"
-python src/complete_analysis.py
+python data_cleaning_sync.py
 ```
 
-This will:
-- Load and preprocess all datasets
-- Generate 16+ visualizations
-- Save insights to `visualizations/KEY_INSIGHTS.txt`
-- Create comprehensive charts in `visualizations/` folder
+**Output**: Cleaned CSVs in `cleaned_data/` folder
 
-### Option 2: Interactive Jupyter Notebook
-For step-by-step exploration:
+### Step 2: Anomaly Detection
+Detect misuse patterns, data imbalances, and mass registration events:
 
 ```bash
-jupyter notebook notebooks/uidai_analysis.ipynb
+python anomaly_detection.py
 ```
 
-### Option 3: Run Individual Modules
-For targeted analysis:
+**Output**: 3 CSV reports + 3 PNG visualizations in `cleaned_data/`
+
+### Step 3: Full Analysis
+Run comprehensive analysis with visualizations:
 
 ```bash
-# Data loading only
-python src/analysis_part1_loading.py
-
-# Preprocessing
-python src/analysis_part2_preprocessing.py
-
-# Generate visualizations
-python src/analysis_part3_visualizations.py
-
-# Advanced analytics
-python src/analysis_part6_advanced.py
+python notebooks/uidai_analysis.py
 ```
+
+**Output**: 7 charts + insights in `visualizations/` folder
+
+### Step 4: Key Insights Analysis (NEW)
+Generate 6 key insights with CSV outputs and visualizations:
+
+```bash
+python uidai_data_analysis.py
+```
+
+**Output**: 7 CSVs + 9 PNGs + summary.md in `outputs/` folder
 
 ---
 
-## 🔬 Analysis Modules
+## 🔬 Analysis Pipeline
 
-| Module | File | Description |
-|--------|------|-------------|
-| **Data Loading** | `analysis_part1_loading.py` | CSV parsing with UTF-8-SIG encoding, error handling |
-| **Preprocessing** | `analysis_part2_preprocessing.py` | Date parsing, feature engineering, data cleaning |
-| **Visualizations** | `analysis_part3_visualizations.py` | Time series, distributions, basic charts |
-| **Bivariate** | `analysis_part4_bivariate.py` | Correlations, cross-tabs, comparative analysis |
-| **Trivariate** | `analysis_part5_trivariate.py` | Heatmaps, bubble charts, multi-dimensional analysis |
-| **Advanced** | `analysis_part6_advanced.py` | Anomaly detection (Z-score), trend analysis, forecasting |
-| **Insights** | `analysis_part7_insights.py` | Key findings compilation, recommendations |
-
-### Analytical Methods Used
-- **Univariate**: Descriptive statistics, distributions, outlier detection
-- **Bivariate**: Pearson correlation, cross-tabulation, weekday/weekend comparison
-- **Trivariate**: State × Month × Activity heatmaps, bubble charts
-- **Advanced**: Z-score anomaly detection (threshold = 2.5), rolling averages, linear regression
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                      DATA PROCESSING PIPELINE                        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  1. DATA SYNCHRONIZATION (data_cleaning_sync.py)                    │
+│     └── Load raw chunks → Find common dates/pincodes → Filter       │
+│                                                                      │
+│  2. ANOMALY DETECTION (anomaly_detection.py)                        │
+│     ├── Pattern 1: High enrolment + low biometric (fraud)          │
+│     ├── Pattern 2: High adult demo + low child (imbalance)         │
+│     └── Pattern 3: Simultaneous spikes (mass registration)         │
+│                                                                      │
+│  3. COMPREHENSIVE ANALYSIS (uidai_analysis.py)                      │
+│     ├── Time series analysis                                        │
+│     ├── State-wise distribution                                     │
+│     ├── Age group analysis                                          │
+│     ├── Correlation analysis                                        │
+│     └── Executive dashboard                                         │
+│                                                                      │
+│  4. KEY INSIGHTS ANALYSIS (uidai_data_analysis.py)                  │
+│     ├── Top 1% enrolment regions                                    │
+│     ├── Lowest biometric coverage districts                         │
+│     ├── High variance day-to-day analysis                           │
+│     ├── Low child Aadhaar penetration                               │
+│     ├── Adult-only demographic zones                                │
+│     └── Delayed biometric completion (lag analysis)                 │
+│                                                                      │
+│  OUTPUT: cleaned_data/ + visualizations/ + outputs/ + insights      │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
 ## 📈 Visualizations
 
-| # | Chart | Purpose | File |
-|---|-------|---------|------|
-| 1 | Time Series | Daily activity trends across datasets | `01_time_series.png` |
-| 2 | State Distribution | Top 15 states by activity type | `02_states.png` |
-| 3 | Day of Week | Weekday vs weekend patterns | `03_weekday.png` |
-| 4 | Age Distribution | Pie charts by age group | `04_age_dist.png` |
-| 5 | Analysis Grid | Correlation, heatmaps, monthly trends | `05_analysis_grid.png` |
-| 6 | Anomaly Detection | Z-score based outlier identification | `06_anomalies.png` |
-| 7 | Executive Dashboard | Comprehensive summary for decision-makers | `07_dashboard.png` |
+| # | Chart | File | Description |
+|---|-------|------|-------------|
+| 1 | Time Series | `01_time_series.png` | Daily activity trends |
+| 2 | State Distribution | `02_states.png` | Top 15 states by activity |
+| 3 | Day of Week | `03_weekday.png` | Weekday vs weekend patterns |
+| 4 | Age Distribution | `04_age_dist.png` | Pie charts by age group |
+| 5 | Analysis Grid | `05_analysis_grid.png` | Correlation & heatmaps |
+| 6 | Anomaly Detection | `06_anomalies.png` | Z-score outliers |
+| 7 | Executive Dashboard | `07_dashboard.png` | Summary for decision-makers |
 
-<details>
-<summary>📊 Sample Visualization Preview</summary>
+### Anomaly Detection Visualizations (in `cleaned_data/`)
+| Pattern | File | Description |
+|---------|------|-------------|
+| Misuse Detection | `pattern1_misuse_detection.png` | Enrolment vs biometric rate scatter |
+| Data Imbalance | `pattern2_data_imbalance.png` | Adult demo vs child enrolment |
+| Mass Registration | `pattern3_mass_registration_spikes.png` | Time series with spike markers |
 
-The dashboard (`07_dashboard.png`) provides a comprehensive view of:
-- Geographic distribution of Aadhaar activity
-- Temporal patterns (weekly/monthly)
-- Age group breakdowns
-- Key performance metrics
-</details>
+### Key Insights Visualizations (in `outputs/`)
+| # | File | Description |
+|---|------|-------------|
+| 1 | `step2_top_enrolment_bar.png` | Top 20 highest enrolment regions |
+| 2 | `step2_enrol_vs_bio_scatter.png` | Enrolment vs biometric coverage |
+| 3 | `step3_lowest_bio_coverage_bar.png` | Bottom 30 biometric coverage |
+| 4 | `step4_daily_timeseries_outliers.png` | National trends with outliers |
+| 5 | `step4_cv_distribution.png` | Day-to-day variance distribution |
+| 6 | `step5_low_child_penetration.png` | Low child penetration regions |
+| 7 | `step6_adult_only_scatter.png` | Adult-only demographic zones |
+| 8 | `step7_lag_histogram.png` | Biometric lag distribution |
+| 9 | `step7_delayed_timeseries.png` | Delayed completion time series |
 
 ---
 
@@ -283,32 +284,20 @@ The dashboard (`07_dashboard.png`) provides a comprehensive view of:
 | Category | Technologies |
 |----------|--------------|
 | **Language** | Python 3.9+ |
-| **Data Processing** | Pandas ≥2.0.0, NumPy ≥1.24.0, SciPy ≥1.10.0 |
-| **Visualization** | Matplotlib ≥3.7.0, Seaborn ≥0.12.0, Plotly ≥5.14.0 |
-| **Statistical Analysis** | Statsmodels ≥0.14.0, Scikit-learn ≥1.2.0 |
-| **Environment** | Jupyter ≥1.0.0, ipykernel ≥6.22.0 |
-| **Export** | nbconvert ≥7.0.0 |
+| **Data Processing** | Pandas, NumPy, SciPy |
+| **Visualization** | Matplotlib, Seaborn |
+| **Statistical Analysis** | Z-score anomaly detection, Pearson correlation |
 
 ---
 
 ## ✨ Code Quality
 
-- ✅ **PEP 8** compliant styling
-- ✅ Comprehensive comments and docstrings
-- ✅ **Reproducible** with fixed random seed (42)
-- ✅ Error handling for file encoding issues
-- ✅ Modular, reusable functions
-- ✅ Clean separation of concerns
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+- **PEP 8** compliant styling
+- Comprehensive comments and docstrings
+- **Reproducible** with fixed random seed (42)
+- Error handling for file encoding issues
+- Modular, reusable scripts
+- Data synchronization for cross-dataset analysis
 
 ---
 
@@ -316,23 +305,26 @@ The dashboard (`07_dashboard.png`) provides a comprehensive view of:
 
 | Milestone | Status |
 |-----------|--------|
+<<<<<<< Updated upstream
 | Data Collection | ✅ Complete |
 | Data Preprocessing | ✅ Complete |
 | Exploratory Analysis | ✅ Complete |
 | Visualization Generation | ✅ Complete |
 | Insights Compilation | ✅ Complete |
+=======
+| Data Collection | Complete |
+| Data Synchronization | Complete |
+| Anomaly Detection | Complete |
+| Visualization Generation | Complete |
+| Insights Compilation | Complete |
+| Key Insights Analysis | Complete |
+>>>>>>> Stashed changes
 
 ---
 
 ## 📜 License
 
-This project is developed for the **UIDAI Data Hackathon 2026**. All rights reserved.
-
----
-
-## 👥 Team
-
-**UIDAI Data Hackathon 2026 Participant**
+This project is developed for the **UIDAI Data Hackathon 2026** by **CoreTech Labs**.
 
 ---
 

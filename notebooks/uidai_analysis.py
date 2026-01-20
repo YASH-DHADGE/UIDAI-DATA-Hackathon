@@ -1,10 +1,8 @@
-"""
-UIDAI Data Hackathon 2026 - Complete Aadhaar Data Analysis
-============================================================
-Comprehensive analysis of anonymized Aadhaar datasets
-
-Run from project root: python notebooks/uidai_analysis.py
-"""
+# UIDAI Data Analysis - Using Cleaned Data
+# ==========================================
+# This script analyzes the synchronized cleaned datasets.
+# Run: python notebooks/uidai_analysis.py
+# Or convert to notebook: jupytext --to notebook uidai_analysis.py
 
 import pandas as pd
 import numpy as np
@@ -23,8 +21,17 @@ sns.set_palette("husl")
 pd.set_option('display.max_columns', None)
 np.random.seed(42)
 
-# Paths
-PROJECT_ROOT = Path(__file__).parent.parent
+# Paths - Updated to use cleaned data (works in both script and notebook)
+# Handle both script (__file__ available) and notebook (use cwd) environments
+try:
+    PROJECT_ROOT = Path(__file__).parent.parent
+except NameError:
+    # Running in Jupyter notebook - use current directory
+    PROJECT_ROOT = Path.cwd()
+    if PROJECT_ROOT.name == 'notebooks':
+        PROJECT_ROOT = PROJECT_ROOT.parent
+
+DATA_DIR = PROJECT_ROOT / 'cleaned_data'
 VIS_DIR = PROJECT_ROOT / 'visualizations'
 VIS_DIR.mkdir(exist_ok=True)
 
@@ -33,33 +40,25 @@ COLORS = {'bio': '#7B1FA2', 'demo': '#00897B', 'enrol': '#D81B60', 'primary': '#
 
 print("=" * 70)
 print("UIDAI DATA HACKATHON 2026 - AADHAAR DATA ANALYSIS")
+print("Using Synchronized Cleaned Datasets")
 print("=" * 70)
 print(f"Analysis Date: {datetime.now()}")
+print(f"Data Directory: {DATA_DIR}")
 print(f"Output Directory: {VIS_DIR}")
 
 # =============================================================================
-# 1. DATA LOADING
+# 1. DATA LOADING - Using cleaned data files
 # =============================================================================
-print("\n[1/10] LOADING DATA...")
+print("\n[1/10] LOADING CLEANED DATA...")
 
-def load_all_files(folder):
-    """Load all CSVs from a folder."""
-    path = PROJECT_ROOT / folder / folder
-    files = sorted(path.glob('*.csv'))
-    dfs = []
-    for f in files:
-        df = pd.read_csv(f, encoding='utf-8-sig', on_bad_lines='skip')
-        dfs.append(df)
-        print(f"  Loaded {f.name}: {len(df):,} rows")
-    return pd.concat(dfs, ignore_index=True)
-
-df_bio = load_all_files('api_data_aadhar_biometric')
-df_demo = load_all_files('api_data_aadhar_demographic')
-df_enrol = load_all_files('api_data_aadhar_enrolment')
+df_bio = pd.read_csv(DATA_DIR / 'biometric_cleaned.csv')
+df_demo = pd.read_csv(DATA_DIR / 'demographic_cleaned.csv')
+df_enrol = pd.read_csv(DATA_DIR / 'enrolment_cleaned.csv')
 
 print(f"\n✓ Biometric: {len(df_bio):,} rows")
 print(f"✓ Demographic: {len(df_demo):,} rows")
 print(f"✓ Enrolment: {len(df_enrol):,} rows")
+print(f"\nNote: Data is already synchronized (common dates & pincodes only)")
 
 # =============================================================================
 # 2. PREPROCESSING
@@ -119,7 +118,7 @@ for ax, (name, df, color) in zip(axes, [('Biometric', df_bio, COLORS['bio']),
     ax.legend()
 
 plt.xlabel('Date')
-plt.suptitle('UIDAI Aadhaar Activity Over Time', fontsize=14, fontweight='bold')
+plt.suptitle('UIDAI Aadhaar Activity Over Time (Cleaned Data)', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig(VIS_DIR / '01_time_series.png', dpi=150, bbox_inches='tight')
 plt.close()
@@ -324,7 +323,8 @@ ax4.set_ylabel('Count (K)')
 ax4.legend()
 ax4.grid(True, alpha=0.3)
 
-plt.suptitle('UIDAI AADHAAR DATA ANALYSIS - EXECUTIVE DASHBOARD', fontsize=16, fontweight='bold', y=0.98)
+plt.suptitle('UIDAI AADHAAR DATA ANALYSIS - EXECUTIVE DASHBOARD\n(Using Synchronized Cleaned Data)', 
+             fontsize=16, fontweight='bold', y=0.98)
 plt.tight_layout()
 plt.savefig(VIS_DIR / '07_dashboard.png', dpi=150, bbox_inches='tight')
 plt.close()
@@ -351,7 +351,11 @@ insights = f"""
 
 4. CORRELATION: Bio-Demo correlation r={corr:.3f} (strong positive)
 
-5. RECOMMENDATIONS:
+5. DATA QUALITY: Using synchronized cleaned data
+   - Common dates across all datasets: 70
+   - Common pincodes across all datasets: 19,410+
+
+6. RECOMMENDATIONS:
    - Focus resources on high-activity states
    - Consider weekend operations expansion
    - Investigate low-activity regions for accessibility

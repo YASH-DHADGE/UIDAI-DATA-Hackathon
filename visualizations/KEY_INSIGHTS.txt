@@ -1,15 +1,19 @@
 
-1. SCALE: Total 110.2M Aadhaar activities
+1. SCALE: Total 80.7M Aadhaar activities
 
 2. TOP STATES: 
    - Biometric: Uttar Pradesh
    - Enrolment: Uttar Pradesh
 
-3. WEEKEND PATTERN: +32.8% activity change on weekends
+3. WEEKEND PATTERN: -11.2% activity change on weekends
 
-4. CORRELATION: Bio-Demo correlation r=0.939 (strong positive)
+4. CORRELATION: Bio-Demo correlation r=0.937 (strong positive)
 
-5. RECOMMENDATIONS:
+5. DATA QUALITY: Using synchronized cleaned data
+   - Common dates across all datasets: 70
+   - Common pincodes across all datasets: 19,410+
+
+6. RECOMMENDATIONS:
    - Focus resources on high-activity states
    - Consider weekend operations expansion
    - Investigate low-activity regions for accessibility
